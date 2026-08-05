@@ -25,10 +25,13 @@ def store_embeddings(chunks, embeddings):
         ids.append(f"chunk_{index}")
 
     collection.add(
-        ids=ids,
-        documents=chunks,
-        embeddings=embeddings.tolist()
-    )
+    ids=ids,
+    documents=chunks,
+    embeddings=embeddings,
+    metadatas=[
+        {"source": "HR_Policy.pdf"} for _ in chunks
+    ]
+)
 
     print(f"{len(chunks)} chunks stored successfully!")
 

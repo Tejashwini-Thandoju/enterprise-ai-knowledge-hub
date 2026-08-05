@@ -1,19 +1,40 @@
-from loaders.pdf_loader import load_pdf
-from chunkers.text_chunker import chunk_text
-from embeddings.embedding_generator import generate_embeddings
-from vectordb.chroma_store import store_embeddings
+from retriever.retriever import retrieve_chunks
 
 
 def main():
 
-    pdf_text = load_pdf("data/raw/HR_Policy.pdf")
+    question = input("Ask a question: ")
 
-    chunks = chunk_text(pdf_text)
+    results = retrieve_chunks(question)
 
-    embeddings = generate_embeddings(chunks)
+    print("\nRetrieved Chunks:\n")
 
-    store_embeddings(chunks, embeddings)
+    for i in range(len(results["documents"][0])):
+
+        print("=" * 60)
+
+        print(f"Result {i + 1}")
+
+        print()
+
+        print(
+            "Source Document:",
+            results["metadatas"][0][i]["source"]
+        )
+
+        print(
+            "Distance:",
+            round(results["distances"][0][i], 4)
+        )
+
+        print()
+
+        print(results["documents"][0][i])
+
+        print("=" * 60)
 
 
 if __name__ == "__main__":
     main()
+
+
