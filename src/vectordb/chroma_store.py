@@ -1,13 +1,3 @@
-#import chromadb
-
-
-#client = chromadb.PersistentClient(path="database")
-
-
-#collection = client.get_or_create_collection(
-    #name="enterprise_knowledge_base"
-#)
-
 import chromadb
 
 client = chromadb.PersistentClient(path="database")
@@ -17,22 +7,26 @@ collection = client.get_or_create_collection(
 )
 
 
-def store_embeddings(chunks, embeddings):
+def store_embeddings(chunks, embeddings, sources):
 
-    ids = []
+    # Clear old data before re-indexing
+    try:
+        collection.delete(ids=collection.get()["ids"])
+    except:
+        pass
 
-    for index in range(len(chunks)):
-        ids.append(f"chunk_{index}")
+    ids = [f"chunk_{i}" for i in range(len(chunks))]
+
+    metadatas = [
+        {"source": source}
+        for source in sources
+    ]
 
     collection.add(
-    ids=ids,
-    documents=chunks,
-    embeddings=embeddings,
-    metadatas=[
-        {"source": "HR_Policy.pdf"} for _ in chunks
-    ]
-)
+        ids=ids,
+        documents=chunks,
+        embeddings=embeddings,
+        metadatas=metadatas
+    )
 
-    print(f"{len(chunks)} chunks stored successfully!")
-
-
+    print(f"\n{len(chunks)} chunks stored successfully!")

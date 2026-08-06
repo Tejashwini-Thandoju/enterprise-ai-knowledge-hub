@@ -1,40 +1,48 @@
 from retriever.retriever import retrieve_chunks
+from llm.groq_client import generate_answer
 
 
 def main():
 
-    question = input("Ask a question: ")
+    print("=" * 70)
+    print("Enterprise AI Knowledge Hub")
+    print("Type 'exit' to quit.")
+    print("=" * 70)
 
-    results = retrieve_chunks(question)
+    while True:
 
-    print("\nRetrieved Chunks:\n")
+        question = input("\nAsk a question: ")
 
-    for i in range(len(results["documents"][0])):
+        if question.lower() == "exit":
+            print("\nGoodbye!")
+            break
 
-        print("=" * 60)
+        # Retrieve relevant chunks
+        results = retrieve_chunks(question, top_k=2)
 
-        print(f"Result {i + 1}")
+        # Build context for the LLM
+        context = "\n\n".join(results["documents"][0])
 
-        print()
+        # Generate answer
+        answer = generate_answer(context, question)
 
-        print(
-            "Source Document:",
-            results["metadatas"][0][i]["source"]
-        )
+        print("\n" + "=" * 70)
+        print("Answer:\n")
+        print(answer)
 
-        print(
-            "Distance:",
-            round(results["distances"][0][i], 4)
-        )
+        print("\nSources:")
 
-        print()
+        shown_sources = set()
 
-        print(results["documents"][0][i])
+        for metadata in results["metadatas"][0]:
+            source = metadata["source"]
 
-        print("=" * 60)
+            if source not in shown_sources:
+                print(f"- {source}")
+                shown_sources.add(source)
+
+        print("=" * 70)
 
 
 if __name__ == "__main__":
     main()
-
-

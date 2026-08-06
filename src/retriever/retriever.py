@@ -19,6 +19,4 @@ def retrieve_chunks(query, top_k=1):
         include=["documents", "metadatas", "distances"]
     )
 
-    print(results)
-
     return results
