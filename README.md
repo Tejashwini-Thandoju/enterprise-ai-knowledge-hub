@@ -95,3 +95,25 @@ This architecture helps improve answer relevance, reduce hallucination, and prov
                     │      Streamlit UI       │
                     │   Answer + Source       │
                     └─────────────────────────┘
+
+
+
+                    ## 📸 Application Screenshots
+
+### Enterprise AI Knowledge Hub
+
+The Streamlit interface provides an interactive chat experience for querying enterprise knowledge.
+
+![Enterprise AI Knowledge Hub](docs/application.png)
+
+### RAG Question & Answer
+
+The system retrieves relevant information from the knowledge base and generates a grounded response with source attribution.
+
+![RAG Question and Answer](docs/question-answer.png)
+
+### Dockerized Application
+
+The application runs inside a Docker container with persistent ChromaDB storage.
+
+![Docker Container](docs/docker.png)
