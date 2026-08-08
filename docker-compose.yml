@@ -1,0 +1,21 @@
+services:
+  enterprise-ai-knowledge-hub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: enterprise-ai-knowledge-hub-container
+
+    ports:
+      - "8501:8501"
+
+    env_file:
+      - .env
+
+    volumes:
+      - enterprise-ai-knowledge-db:/app/database
+
+    restart: unless-stopped
+
+volumes:
+  enterprise-ai-knowledge-db:

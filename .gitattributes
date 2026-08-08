@@ -1,0 +1,8 @@
+﻿* text=auto
+*.txt text
+*.py text
+*.yml text
+*.yaml text
+*.md text
+*.dockerfile text
+Dockerfile text
